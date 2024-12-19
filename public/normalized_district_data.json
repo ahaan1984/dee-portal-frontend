@@ -1,0 +1,398 @@
+[
+  {
+    "district": "BAJALI",
+    "dis": [
+      "DIS Bajali"
+    ],
+    "beeo": [
+      "BEEO, BAJALI"
+    ]
+  },
+  {
+    "district": "BAKSA",
+    "dis": [],
+    "beeo": [
+      "BEEO, TAMULPUR",
+      "BEEO, BASKA",
+      "BEEO, TIHU BARAMA",
+      "BEEO, JALAH"
+    ]
+  },
+  {
+    "district": "BARPETA",
+    "dis": [
+      "DIS Barpeta"
+    ],
+    "beeo": [
+      "BEEO, MONDIA",
+      "BEEO, BHAWANIPUR",
+      "BEEO, RUPSHI",
+      "BEEO, CHENGA",
+      "BEEO, BARPETA"
+    ]
+  },
+  {
+    "district": "BISWANATH",
+    "dis": [
+      "DIS, Biswanath"
+    ],
+    "beeo": [
+      "BEEO, BISWANATH",
+      "BEEO, BEHALI",
+      "BEEO, CHAIDUAR"
+    ]
+  },
+  {
+    "district": "BONGAIGAON",
+    "dis": [
+      "DIS, Bongaigaon",
+      "DIS, North Salmara, Abhayapuri"
+    ],
+    "beeo": [
+      "BEEO, BOITAMARI",
+      "BEEO, BONGAIGAON",
+      "BEEO, SRIJANGRAM",
+      "BEEO, MANIKPUR"
+    ]
+  },
+  {
+    "district": "CACHAR",
+    "dis": [
+      "DIS, Silchar"
+    ],
+    "beeo": [
+      "BEEO, KATIGORAH",
+      "BEEO, NARSINGPUR",
+      "BEEO, RAJA BAZAR",
+      "BEEO, SILCHAR",
+      "BEEO, SALCHAPRA",
+      "BEEO, SONAI",
+      "BEEO, UDHARBOND"
+    ]
+  },
+  {
+    "district": "CHARAIDEO",
+    "dis": [
+      "DIS, CHARAIDEO"
+    ],
+    "beeo": [
+      "BEEO, SAPEKHATI",
+      "BEEO, SONARI"
+    ]
+  },
+  {
+    "district": "CHIRANG",
+    "dis": [],
+    "beeo": [
+      "BEEO, BOROBAZAR",
+      "BEEO, SIDLI"
+    ]
+  },
+  {
+    "district": "DARRANG",
+    "dis": [
+      "DIS, Mangaldoi"
+    ],
+    "beeo": [
+      "BEEO, SIPAJHAR",
+      "BEEO, KALAIGAON",
+      "BEEO, DALGAON"
+    ]
+  },
+  {
+    "district": "DHEMAJI",
+    "dis": [
+      "DIS, Dhemaji",
+      "DIS, Jonai"
+    ],
+    "beeo": [
+      "BEEO, DHEMAJI",
+      "BEEO, MURKONGSELEK"
+    ]
+  },
+  {
+    "district": "DHUBRI",
+    "dis": [
+      "DIS, DHUBRI",
+      "DIS, BILASIPARA"
+    ],
+    "beeo": [
+      "BEEO, GOLAKGANJ",
+      "BEEO, AGOMONI",
+      "BEEO, GAURIPUR",
+      "BEEO, BILASIPARA",
+      "BEEO, CHAPOR"
+    ]
+  },
+  {
+    "district": "DIBRUGARH",
+    "dis": [
+      "DIS, Dibrugarh"
+    ],
+    "beeo": [
+      "BEEO, BARBARUAH",
+      "BEEO, JOYPUR",
+      "BEEO, KHOWANG",
+      "BEEO, LAHOAL",
+      "BEEO, PANITOLA",
+      "BEEO, TENGAKHAT"
+    ]
+  },
+  {
+    "district": "DIMAHASAO",
+    "dis": [],
+    "beeo": [
+      "BEEO, DIYUNGBRA",
+      "BEEO, HARANGAJAO",
+      "BEEO, MAHUR",
+      "BEEO, NEW SANGBAR",
+      "BEEO, MAIBANG"
+    ]
+  },
+  {
+    "district": "GOALPARA",
+    "dis": [
+      "DIS,GOALPARA"
+    ],
+    "beeo": [
+      "BEEO, MATIA",
+      "BEEO, LAKHIPUR",
+      "BEEO, DUDHNOI",
+      "BEEO, BALIJANA"
+    ]
+  },
+  {
+    "district": "GOLAGHAT",
+    "dis": [],
+    "beeo": [
+      "BEEO, CENTRAL",
+      "BEEO, EAST",
+      "BEEO, NORTH",
+      "BEEO, SOUTH",
+      "BEEO, WEST"
+    ]
+  },
+  {
+    "district": "HAILAKANDI",
+    "dis": [
+      "DIS, Hailakandi"
+    ],
+    "beeo": [
+      "BEEO, HAILAKANDI",
+      "BEEO, KATLICHERRA",
+      "BEEO, LALA"
+    ]
+  },
+  {
+    "district": "HOJAI",
+    "dis": [],
+    "beeo": [
+      "BEEO, JUGIJAN",
+      "BEEO, LANKA"
+    ]
+  },
+  {
+    "district": "JORHAT",
+    "dis": [
+      "DIS, Jorhat"
+    ],
+    "beeo": [
+      "BEEO, CENTRAL JORHAT",
+      "BEEO, EAST JORHAT",
+      "BEEO, JORHAT",
+      "BEEO, NORTH WEST JORHAT",
+      "BEEO, TITABOR"
+    ]
+  },
+  {
+    "district": "KAMRUP-METRO",
+    "dis": [
+      "DIS, Guwahati",
+      "DIS, Rangia"
+    ],
+    "beeo": [
+      "BEEO, DIMORIA",
+      "BEEO, GUWAHATI"
+    ]
+  },
+  {
+    "district": "KAMRUP-RURAL",
+    "dis": [],
+    "beeo": [
+      "BEEO, BOKO",
+      "BEEO, CHAMARIA",
+      "BEEO, CHHAYGAON",
+      "BEEO, HAJO",
+      "BEEO, KARARA",
+      "BEEO, KAMALPUR",
+      "BEEO, RANGIA",
+      "BEEO, RANI",
+      "BEEO, RAMPUR"
+    ]
+  },
+  {
+    "district": "KARBIANGLONG",
+    "dis": [],
+    "beeo": [
+      "BEEO, BOKAJAN",
+      "BEEO, HOWRAGHAT",
+      "BEEO, LUMBAJONG",
+      "BEEO, NILIP",
+      "BEEO, SAMELANGSO",
+      "BEEO, RONGMONGVE",
+      "BEEO, LANGSOMEPI"
+    ]
+  },
+  {
+    "district": "KARIMGANJ",
+    "dis": [
+      "DIS, Karimganj"
+    ],
+    "beeo": [
+      "BEEO, BADARPUR",
+      "BEEO, NORTH KARIMGANJ",
+      "BEEO, PATHERKANDI",
+      "BEEO, R.K NAGAR",
+      "BEEO, SOUTH KARIMGANJ",
+      "BEEO, URBAN KARIMGANJ"
+    ]
+  },
+  {
+    "district": "KOKRAJHAR",
+    "dis": [],
+    "beeo": [
+      "BEEO, DOTMA",
+      "BEEO, GOSSAIGAON",
+      "BEEO, KACHUGAON",
+      "BEEO, KOKRAJHAR"
+    ]
+  },
+  {
+    "district": "LAKHIMPUR",
+    "dis": [
+      "DIS, North Lakhimpur"
+    ],
+    "beeo": [
+      "BEEO, BIHPURIA",
+      "BEEO, BORDOLONI",
+      "BEEO, DHAKUAKHANA",
+      "BEEO, LAKHIMPUR",
+      "BEEO, NARAYANPUR",
+      "BEEO, NOWBOICHA"
+    ]
+  },
+  {
+    "district": "MAJULI",
+    "dis": [
+      "DIS, Majuli"
+    ],
+    "beeo": [
+      "BEEO, MAJULI"
+    ]
+  },
+  {
+    "district": "MORIGAON",
+    "dis": [
+      "DIS, Morigaon"
+    ],
+    "beeo": [
+      "BEEO, LAHARIGHAT",
+      "BEEO, MAYONG",
+      "BEEO, KAPILI",
+      "BEEO, BHURBANDHA"
+    ]
+  },
+  {
+    "district": "NAGAON",
+    "dis": [
+      "DIS, Nagaon"
+    ],
+    "beeo": [
+      "BEEO, BATADRAVA",
+      "BEEO, JURIA",
+      "BEEO, KATHIATOLI",
+      "BEEO, KALIABOR",
+      "BEEO, KHAGARIJAN",
+      "BEEO, LOWKHOWA",
+      "BEEO, RUPAHI",
+      "BEEO, URBAN"
+    ]
+  },
+  {
+    "district": "NALBARI",
+    "dis": [
+      "DIS, Nalbari"
+    ],
+    "beeo": [
+      "BEEO, BARKHETRI",
+      "BEEO, PUB NALBARI",
+      "BEEO, BORIGOG BANBHAG",
+      "BEEO, PASCHIM NALBARI"
+    ]
+  },
+  {
+    "district": "SIBSAGAR",
+    "dis": [
+      "DIS, Sivasagar",
+      "DIS, Nazira"
+    ],
+    "beeo": [
+      "BEEO, DEMOW",
+      "BEEO, AMGURI",
+      "BEEO, KHELUA",
+      "BEEO, NAZIRA"
+    ]
+  },
+  {
+    "district": "SONITPUR",
+    "dis": [
+      "DIS, Tezpur"
+    ],
+    "beeo": [
+      "BEEO, GABHARU",
+      "BEEO, DHEKIAJULI",
+      "BEEO, BALIPARA",
+      "BEEO, NADUAR"
+    ]
+  },
+  {
+    "district": "SOUTH-SALMARA-MANKACHAR",
+    "dis": [],
+    "beeo": [
+      "BEEO, MANKACHAR",
+      "BEEO, SOUTH SALMARA"
+    ]
+  },
+  {
+    "district": "TINSUKIA",
+    "dis": [
+      "DIS, Tinsukia"
+    ],
+    "beeo": [
+      "BEEO, HAPJAN",
+      "BEEO, KAKAPATHAR",
+      "BEEO, MARGHERITA",
+      "BEEO, SADIYA",
+      "BEEO, TINSUKIA URBAN"
+    ]
+  },
+  {
+    "district": "UDALGURI",
+    "dis": [],
+    "beeo": [
+      "BEEO, MAZBAT",
+      "BEEO, KHOIRABARI",
+      "BEEO, UDALGURI"
+    ]
+  },
+  {
+    "district": "WEST-KARBIANGLONG",
+    "dis": [],
+    "beeo": [
+      "BEEO, AMRI",
+      "BEEO, CHINTHONG",
+      "BEEO, RONGKHANG",
+      "BEEO, SOCHENG"
+    ]
+  }
+]
