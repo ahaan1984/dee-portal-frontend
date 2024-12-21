@@ -1,23 +1,19 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const DistrictHierarchy = () => {
-  const [districtData, setDistrictData] = useState([]);
+const EmployeeList = () => {
+  const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedDistrict, setSelectedDistrict] = useState('');
 
   useEffect(() => {
-    fetchDistrictData();
+    fetchEmployeeData();
   }, []);
 
-  const fetchDistrictData = async () => {
+  const fetchEmployeeData = async () => {
     try {
-      const response = await fetch('/normalized_district_data.json');
-      if (!response.ok) {
-        throw new Error('Failed to fetch district data');
-      }
-      const data = await response.json();
-      setDistrictData(data);
+      const response = await axios.get('http://localhost:5000/api/employees');
+      setEmployeeData(response.data);
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -25,8 +21,9 @@ const DistrictHierarchy = () => {
     }
   };
 
-  const getSelectedDistrictData = () => {
-    return districtData.find(item => item.district === selectedDistrict);
+  const formatDate = (isoString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(isoString).toLocaleDateString(undefined, options);
   };
 
   if (loading) {
@@ -40,9 +37,9 @@ const DistrictHierarchy = () => {
   if (error) {
     return (
       <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-        <p className="text-red-600">Error loading district data: {error}</p>
+        <p className="text-red-600">Error loading employee data: {error}</p>
         <button 
-          onClick={fetchDistrictData}
+          onClick={fetchEmployeeData}
           className="mt-2 px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
         >
           Retry
@@ -52,59 +49,55 @@ const DistrictHierarchy = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <div className="mb-6">
-        <label htmlFor="district-select" className="block text-sm font-medium text-gray-700 mb-2">
-          Select District
-        </label>
-        <select
-          id="district-select"
-          value={selectedDistrict}
-          onChange={(e) => setSelectedDistrict(e.target.value)}
-          className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-        >
-          <option value="">Choose a district...</option>
-          {districtData.map((item) => (
-            <option key={item.district} value={item.district}>
-              {item.district}
-            </option>
-          ))}
-        </select>
+    <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h1 className="text-2xl font-semibold mb-6">Employee List</h1>
+      
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">S.No</th>
+              <th className="py-2 px-4 border-b">Employee ID</th>
+              <th className="py-2 px-4 border-b">Name</th>
+              <th className="py-2 px-4 border-b">Designation</th>
+              <th className="py-2 px-4 border-b">Gender</th>
+              <th className="py-2 px-4 border-b">Place of Posting</th>
+              <th className="py-2 px-4 border-b">Date of Birth</th>
+              <th className="py-2 px-4 border-b">Date of Joining</th>
+              <th className="py-2 px-4 border-b">Cause of Vacancy</th>
+              <th className="py-2 px-4 border-b">Caste</th>
+              <th className="py-2 px-4 border-b">Reservation Status</th>
+              <th className="py-2 px-4 border-b">PWD</th>
+              <th className="py-2 px-4 border-b">Ex-Servicemen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employeeData.map((employee) => (
+              <tr key={employee.employee_id} className="hover:bg-gray-100">
+                <td className="py-2 px-4 border-b text-center">{employee["S.No"]}</td>
+                <td className="py-2 px-4 border-b text-center">{employee.employee_id}</td>
+                <td className="py-2 px-4 border-b">{employee.name}</td>
+                <td className="py-2 px-4 border-b whitespace-pre-wrap">{employee.designation}</td>
+                <td className="py-2 px-4 border-b">{employee.gender}</td>
+                <td className="py-2 px-4 border-b">{employee.place_of_posting}</td>
+                <td className="py-2 px-4 border-b">{formatDate(employee.date_of_birth)}</td>
+                <td className="py-2 px-4 border-b">{formatDate(employee.date_of_joining)}</td>
+                <td className="py-2 px-4 border-b">{employee.cause_of_vacancy}</td>
+                <td className="py-2 px-4 border-b">{employee.caste}</td>
+                <td className="py-2 px-4 border-b">{employee.posted_against_reservation}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  {employee.pwd ? 'Yes' : 'No'}
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  {employee.ex_servicemen ? 'Yes' : 'No'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      {selectedDistrict && (
-        <div className="mt-6 border rounded-lg overflow-hidden">
-          <div className="bg-gray-50 p-4">
-            <h2 className="text-xl font-semibold text-gray-800">{selectedDistrict}</h2>
-          </div>
-          
-          <div className="p-4 space-y-6">
-            {getSelectedDistrictData()?.dis.length > 0 && (
-              <div className="bg-white">
-                <h3 className="text-lg font-medium text-gray-700 mb-3">District Inspection Schools</h3>
-                <ul className="space-y-2 pl-4">
-                  {getSelectedDistrictData().dis.map((dis, index) => (
-                    <li key={index} className="text-gray-600">{dis}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            
-            {getSelectedDistrictData()?.beeo.length > 0 && (
-              <div className="bg-white">
-                <h3 className="text-lg font-medium text-gray-700 mb-3">Block Elementary Education Offices</h3>
-                <ul className="space-y-2 pl-4">
-                  {getSelectedDistrictData().beeo.map((beeo, index) => (
-                    <li key={index} className="text-gray-600">{beeo}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default DistrictHierarchy;
+export default EmployeeList;

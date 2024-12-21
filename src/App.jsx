@@ -6,7 +6,7 @@ import ImageSlider from "./components/ImageSlider";
 import InfoLinks from "./components/InfoLinks";
 import CardSection from "./components/CardSection";
 import Footer from "./components/Footer";
-import LoginPage from "./components/LoginPage";
+// import LoginPage from "./components/LoginPage";
 import DistrictData from "./components/DistrictData";
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
               <CardSection />
             </>
           } />
-          <Route path="/login" element={<LoginPage />} />
+          {/* <Route path="/login" element={<LoginPage />} /> */}
           <Route path="/dashboard" element={<DistrictData />} />
         </Routes>
         {/* <DistrictData /> */}
