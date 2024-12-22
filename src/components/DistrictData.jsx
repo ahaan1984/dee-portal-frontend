@@ -1,24 +1,46 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeList = () => {
+  const navigate = useNavigate();
   const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userRole, setUserRole] = useState('viewer'); // Default to 'viewer'
 
   useEffect(() => {
+    fetchUserRole();
     fetchEmployeeData();
   }, []);
 
+  const fetchUserRole = () => {
+    // Simulate fetching user role from token
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUserRole(payload.role);
+    }
+  };
+
   const fetchEmployeeData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/employees');
+      const token = localStorage.getItem('token'); // Retrieve the token
+      const response = await axios.get('http://localhost:5000/api/employees', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add Authorization header
+        },
+      });
       setEmployeeData(response.data);
       setLoading(false);
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.error || 'Failed to fetch data');
       setLoading(false);
     }
+  };
+
+  const handleCreate = () => {
+    navigate('/create-employee');
   };
 
   const formatDate = (isoString) => {
@@ -51,7 +73,14 @@ const EmployeeList = () => {
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-semibold mb-6">Employee List</h1>
-      
+      {userRole === 'admin' || userRole === 'superadmin' ? (
+        <button
+          onClick={handleCreate}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Create Employee
+        </button>
+      ) : null}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
@@ -91,10 +120,27 @@ const EmployeeList = () => {
                 <td className="py-2 px-4 border-b text-center">
                   {employee.ex_servicemen ? 'Yes' : 'No'}
                 </td>
+                {(userRole === 'admin' || userRole === 'superadmin') && (
+                    <button
+                      // onClick={() => handleUpdate(employee.employee_id)}
+                      className="mr-2 px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                    >
+                      Update
+                    </button>
+                  )}
+              {userRole === 'superadmin' && (
+                    <button
+                      // onClick={() => handleDelete(employee.employee_id)}
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  )}
               </tr>
             ))}
           </tbody>
         </table>
+        
       </div>
     </div>
   );
