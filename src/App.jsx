@@ -6,6 +6,7 @@ import ImageSlider from "./components/ImageSlider";
 import InfoLinks from "./components/InfoLinks";
 import CardSection from "./components/CardSection";
 import Footer from "./components/Footer";
+import CreateEmployee from "./components/CreateEmployee";
 import LoginPage from "./components/LoginPage";
 import DistrictData from "./components/DistrictData";
 
@@ -16,7 +17,7 @@ function App() {
         <HeaderTop />
         <Navbar />
         <Routes>
-          <Route path="/" element={
+          {/* <Route path="/" element={
             <>
               <ImageSlider />
               <h2 className="text-xl font-bold text-center mt-6">Do you want to know more about?</h2>
@@ -31,9 +32,10 @@ function App() {
               <h2 className="text-xl font-bold text-center mt-6">Featured Sections</h2>
               <CardSection />
             </>
-          } />
-          <Route path="/login" element={<LoginPage />} />
+          } /> */}
+          <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<DistrictData />} />
+          <Route path="/create-employee" element={<CreateEmployee />} />
         </Routes>
         {/* <DistrictData /> */}
         <Footer />
