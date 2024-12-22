@@ -4,21 +4,20 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const Header = () => {
   return (
     <div className="flex justify-between align-center items-center px-6 py-3 mx-6 bg-white border-b">
-      {/* Left: Logo and Text */}
       <div className="flex items-center space-x-4">
         <img
           src={govtLogo}
           alt="Logo"
-          className="h-12"
+          className="h-20"
         />
         <div>
-          <h1 className="text-lg font-bold text-gray-800">
-            GOVERNMENT OF ASSAM
+        <h1 className="font-sans font-normal" style={{ fontSize: '20px', fontFamily: 'Open Sans, sans-serif' }}>
+        GOVERNMENT OF ASSAM
           </h1>
-          <h2 className="text-lg text-red-600 font-bold">ELEMENTARY EDUCATION</h2>
-          {/* <h3 className="text-lg text-blue-600 font-bold">
-            SAMAGRA SHIKSHA AXOM
-          </h3> */}
+          <h2 className="text-[#990000] font-normal" style={{ fontSize: '18px', fontFamily: 'Open Sans, sans-serif' }}>ELEMENTARY EDUCATION</h2>
+          <h3 className="text-[#2A75BB] font-bold" style={{ fontSize: '15 px', fontFamily: 'Open Sans, sans-serif' }}>
+            DIRECTORATE OF ELEMENTARY EDUCATION
+          </h3>
         </div>
       </div>
 

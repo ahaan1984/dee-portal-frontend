@@ -35,7 +35,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-600 text-white relative">
+    <nav className="bg-[#2A75BB] text-white relative">
       <ul className="flex space-x-6 px-6 py-3 items-center">
         {/* Main */}
         <li className="bg-red-600 px-4 py-2 rounded cursor-pointer">Main</li>
