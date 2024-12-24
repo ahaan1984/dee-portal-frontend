@@ -29,11 +29,20 @@ const UpdateEmployee = () => {
         const response = await axios.get(`http://localhost:5000/api/employees/${employee_id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
+        // Convert dates to `YYYY-MM-DD` format
+        const formatDate = (isoString) => {
+          return isoString ? new Date(isoString).toISOString().split('T')[0] : '';
+        };
+
         setFormData({
           ...response.data,
+          date_of_birth: formatDate(response.data.date_of_birth),
+          date_of_joining: formatDate(response.data.date_of_joining),
           pwd: response.data.pwd === 1,
           ex_servicemen: response.data.ex_servicemen === 1,
         });
+
         setLoading(false);
       } catch (err) {
         setError(err.response?.data?.error || 'Failed to fetch employee data');

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const navigate = useNavigate();
 
   const dropdownMenus = {
     "Information & Services": [
@@ -34,6 +36,10 @@ const Navbar = () => {
     setActiveDropdown(null);
   };
 
+  const handleHomeClick = () => {
+    navigate('/')
+  };
+
   return (
     <nav className="bg-[#2A75BB] text-white relative">
       <ul className="flex space-x-6 px-6 py-3 items-center">
@@ -41,7 +47,7 @@ const Navbar = () => {
         <li className="bg-red-600 px-4 py-2 rounded cursor-pointer">Main</li>
 
         {/* Home Icon */}
-        <li className="hover:text-gray-300 cursor-pointer">🏠</li>
+        <li className="hover:text-gray-300 cursor-pointer" onClick={handleHomeClick}>🏠</li>
 
         {/* Dropdown Menus */}
         {Object.keys(dropdownMenus).map((menu, index) => (
