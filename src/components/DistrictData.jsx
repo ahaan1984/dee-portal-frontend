@@ -7,7 +7,9 @@ const EmployeeList = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userRole, setUserRole] = useState('viewer'); // Default to 'viewer'
+  const [userRole, setUserRole] = useState('viewer'); 
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchUserRole();
@@ -25,10 +27,10 @@ const EmployeeList = () => {
 
   const fetchEmployeeData = async () => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve the token
+      const token = localStorage.getItem('token'); 
       const response = await axios.get('http://localhost:5000/api/employees', {
         headers: {
-          Authorization: `Bearer ${token}`, // Add Authorization header
+          Authorization: `Bearer ${token}`, 
         },
       });
       setEmployeeData(response.data);
@@ -46,6 +48,33 @@ const EmployeeList = () => {
   const formatDate = (isoString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(isoString).toLocaleDateString(undefined, options);
+  };
+
+  const handleDeleteClick = (employee) => {
+    setSelectedEmployee(employee);
+    setShowModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:5000/api/employees/${selectedEmployee.employee_id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setEmployeeData((prev) =>
+        prev.filter((employee) => employee.employee_id !== selectedEmployee.employee_id)
+      );
+      setShowModal(false);
+      setSelectedEmployee(null);
+    } catch (err) {
+      console.error('Error deleting employee:', err);
+      alert('Failed to delete employee');
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowModal(false);
+    setSelectedEmployee(null);
   };
 
   if (loading) {
@@ -130,7 +159,7 @@ const EmployeeList = () => {
                   )}
               {userRole === 'superadmin' && (
                     <button
-                      // onClick={() => handleDelete(employee.employee_id)}
+                      onClick={() => handleDeleteClick(employee)}
                       className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                     >
                       Delete
@@ -140,7 +169,33 @@ const EmployeeList = () => {
             ))}
           </tbody>
         </table>
-        
+
+        {/* delete */}
+        {showModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+                <h2 className="text-lg font-semibold mb-4">Confirm Deletion</h2>
+                <p className="text-gray-700 mb-6">
+                  Are you sure you want to delete <strong>{selectedEmployee.name}</strong>?
+                </p>
+                <div className="flex justify-end gap-4">
+                  <button
+                    onClick={cancelDelete}
+                    className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+                  >
+                    No
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                  >
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
       </div>
     </div>
   );
