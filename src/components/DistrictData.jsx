@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const EmployeeList = () => {
@@ -7,7 +7,7 @@ const EmployeeList = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userRole, setUserRole] = useState('viewer'); 
+  const [userRole, setUserRole] = useState('viewer');
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -17,7 +17,6 @@ const EmployeeList = () => {
   }, []);
 
   const fetchUserRole = () => {
-    // Simulate fetching user role from token
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -27,11 +26,9 @@ const EmployeeList = () => {
 
   const fetchEmployeeData = async () => {
     try {
-      const token = localStorage.getItem('token'); 
+      const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:5000/api/employees', {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setEmployeeData(response.data);
       setLoading(false);
@@ -39,10 +36,6 @@ const EmployeeList = () => {
       setError(err.response?.data?.error || 'Failed to fetch data');
       setLoading(false);
     }
-  };
-
-  const handleCreate = () => {
-    navigate('/create-employee');
   };
 
   const formatDate = (isoString) => {
@@ -72,131 +65,156 @@ const EmployeeList = () => {
     }
   };
 
-  const cancelDelete = () => {
-    setShowModal(false);
-    setSelectedEmployee(null);
-  };
-
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-        <p className="text-red-600">Error loading employee data: {error}</p>
-        <button 
-          onClick={fetchEmployeeData}
-          className="mt-2 px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
-        >
-          Retry
-        </button>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
+        <div className="max-w-6xl mx-auto bg-red-50 border border-red-200 rounded-xl p-6 shadow-lg">
+          <p className="text-red-600 flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Error loading employee data: {error}
+          </p>
+          <button 
+            onClick={fetchEmployeeData}
+            className="mt-4 px-6 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-semibold mb-6">Employee List</h1>
-      {userRole === 'admin' || userRole === 'superadmin' ? (
-        <button
-          onClick={handleCreate}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Create Employee
-        </button>
-      ) : null}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">S.No</th>
-              <th className="py-2 px-4 border-b">Employee ID</th>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">Designation</th>
-              <th className="py-2 px-4 border-b">Gender</th>
-              <th className="py-2 px-4 border-b">Place of Posting</th>
-              <th className="py-2 px-4 border-b">Date of Birth</th>
-              <th className="py-2 px-4 border-b">Date of Joining</th>
-              <th className="py-2 px-4 border-b">Cause of Vacancy</th>
-              <th className="py-2 px-4 border-b">Caste</th>
-              <th className="py-2 px-4 border-b">Reservation Status</th>
-              <th className="py-2 px-4 border-b">PWD</th>
-              <th className="py-2 px-4 border-b">Ex-Servicemen</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employeeData.map((employee) => (
-              <tr key={employee.employee_id} className="hover:bg-gray-100">
-                <td className="py-2 px-4 border-b text-center">{employee["S.No"]}</td>
-                <td className="py-2 px-4 border-b text-center">{employee.employee_id}</td>
-                <td className="py-2 px-4 border-b">{employee.name}</td>
-                <td className="py-2 px-4 border-b whitespace-pre-wrap">{employee.designation}</td>
-                <td className="py-2 px-4 border-b">{employee.gender}</td>
-                <td className="py-2 px-4 border-b">{employee.place_of_posting}</td>
-                <td className="py-2 px-4 border-b">{formatDate(employee.date_of_birth)}</td>
-                <td className="py-2 px-4 border-b">{formatDate(employee.date_of_joining)}</td>
-                <td className="py-2 px-4 border-b">{employee.cause_of_vacancy}</td>
-                <td className="py-2 px-4 border-b">{employee.caste}</td>
-                <td className="py-2 px-4 border-b">{employee.posted_against_reservation}</td>
-                <td className="py-2 px-4 border-b text-center">
-                  {employee.pwd ? 'Yes' : 'No'}
-                </td>
-                <td className="py-2 px-4 border-b text-center">
-                  {employee.ex_servicemen ? 'Yes' : 'No'}
-                </td>
-                {(userRole === 'admin' || userRole === 'superadmin') && (
-                    <button
-                    onClick={() => navigate(`/update-employee/${employee.employee_id}`)}
-                      className="mr-2 px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                    >
-                      Update
-                    </button>
-                  )}
-              {userRole === 'superadmin' && (
-                    <button
-                      onClick={() => handleDeleteClick(employee)}
-                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  )}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
+      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
+        <div className="p-6 border-b border-blue-100">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Employee List</h1>
+            {(userRole === 'admin' || userRole === 'superadmin') && (
+              <button
+                onClick={() => navigate('/create-employee')}
+                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Create Employee
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-blue-50">
+              <tr>
+                {["S.No", "Employee ID", "Name", "Designation", "Gender", "Place of Posting", 
+                  "Date of Birth", "Date of Joining", "Cause of Vacancy", "Caste", 
+                  "Reservation Status", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
+                  <th key={header} className="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-blue-100">
+                    {header}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* delete */}
-        {showModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg shadow-lg w-96 p-6">
-                <h2 className="text-lg font-semibold mb-4">Confirm Deletion</h2>
-                <p className="text-gray-700 mb-6">
-                  Are you sure you want to delete <strong>{selectedEmployee.name}</strong>?
-                </p>
-                <div className="flex justify-end gap-4">
-                  <button
-                    onClick={cancelDelete}
-                    className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
-                  >
-                    No
-                  </button>
-                  <button
-                    onClick={confirmDelete}
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
-                  >
-                    Yes
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
+            </thead>
+            <tbody className="divide-y divide-blue-100">
+              {employeeData.map((employee) => (
+                <tr key={employee.employee_id} className="hover:bg-blue-50 transition-colors">
+                  <td className="py-3 px-4">{employee["S.No"]}</td>
+                  <td className="py-3 px-4 font-medium">{employee.employee_id}</td>
+                  <td className="py-3 px-4">{employee.name}</td>
+                  <td className="py-3 px-4">{employee.designation}</td>
+                  <td className="py-3 px-4">{employee.gender}</td>
+                  <td className="py-3 px-4">{employee.place_of_posting}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_birth)}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_joining)}</td>
+                  <td className="py-3 px-4">{employee.cause_of_vacancy}</td>
+                  <td className="py-3 px-4">{employee.caste}</td>
+                  <td className="py-3 px-4">{employee.posted_against_reservation}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      employee.pwd ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {employee.pwd ? 'Yes' : 'No'}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      employee.ex_servicemen ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {employee.ex_servicemen ? 'Yes' : 'No'}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      {(userRole === 'admin' || userRole === 'superadmin') && (
+                        <button
+                          onClick={() => navigate(`/update-employee/${employee.employee_id}`)}
+                          className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                          title="Update"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
+                      )}
+                      {userRole === 'superadmin' && (
+                        <button
+                          onClick={() => handleDeleteClick(employee)}
+                          className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+                          title="Delete"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg w-96 p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Confirm Deletion</h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete employee <span className="font-medium">{selectedEmployee.name}</span>?
+              This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
