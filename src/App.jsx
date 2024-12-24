@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateEmployee from "./components/CreateEmployee";
 import LoginPage from "./components/LoginPage";
+import UpdateEmployee from "./components/UpdateEmployees";
 import DistrictData from "./components/DistrictData";
 
 function App() {
@@ -16,8 +17,8 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<DistrictData />} />
           <Route path="/create-employee" element={<CreateEmployee />} />
+          <Route path="/update-employee/:employee_id" element={<UpdateEmployee />} />
         </Routes>
-        {/* <DistrictData /> */}
         <Footer />
       </div>
     </Router>

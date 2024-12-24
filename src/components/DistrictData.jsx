@@ -122,7 +122,7 @@ const EmployeeList = () => {
                 </td>
                 {(userRole === 'admin' || userRole === 'superadmin') && (
                     <button
-                      // onClick={() => handleUpdate(employee.employee_id)}
+                    onClick={() => navigate(`/update-employee/${employee.employee_id}`)}
                       className="mr-2 px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                     >
                       Update
