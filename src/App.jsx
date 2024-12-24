@@ -6,6 +6,7 @@ import CreateEmployee from "./components/CreateEmployee";
 import LoginPage from "./components/LoginPage";
 import UpdateEmployee from "./components/UpdateEmployees";
 import DistrictData from "./components/DistrictData";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/dashboard" element={<DistrictData />} />
           <Route path="/create-employee" element={<CreateEmployee />} />
           <Route path="/update-employee/:employee_id" element={<UpdateEmployee />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
         <Footer />
       </div>
