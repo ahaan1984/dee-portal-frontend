@@ -20,10 +20,17 @@ const CreateEmployee = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const designations = ["Manager", "Engineer", "Clerk", "Assistant"];
+  const designations = ["Director"," Addl. Director, Elementary Education", "Joint Director , Elementary Education",  
+    "Deputy Director, Elementary Education", "SR. FINANCE & ACCOUNTS OFFICER", "Finance & Accounts Officer", "O.S.D.", 
+    "Astt. Dir. Elementary Education","EVALUATION AND MONITORING OFFICER", "Accounts Officer", "Research Officer", 
+    "Statistical Officer", "Registrar", "Inspecting Auditor", "Superintendent", "ASSTT. RESEARCH OFFICER", "ASSTT. STATISTICAL OFFICER", 
+    "RESEARCH ASSISTANT", "STATISTICAL ASSISTANT", "UPPER DIVISION ASSTT", "Progress Assistant", 
+    "PLANNING ASSTT", "Junior Assistant", "Stenographer", "Computor", "Driver", "Jamadar", 
+    "DUFTRY", "Peon", "Assistant Planning Officer" 
+    ];
   const genders = ["Male", "Female", "Other"];
-  const causesOfVacancy = ["Retirement", "Resignation", "Termination"];
-  const castes = ["General", "OBC", "SC", "ST"];
+  const causesOfVacancy = ["Transfer", "Retirement", "Expiry", "Termination", "Resignation"];
+  const castes = ["UR", "SC", "STP", "STH", "OBC/MOBC", "EWS"];
   const reservations = ["Yes", "No"];
 
   const handleChange = (e) => {
