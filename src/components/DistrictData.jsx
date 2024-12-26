@@ -122,7 +122,7 @@ const EmployeeList = () => {
               <tr>
                 {["S.No", "Employee ID", "Name", "Designation", "Gender", "Place of Posting", 
                   "Date of Birth", "Date of Joining", "Cause of Vacancy", "Caste", 
-                  "Reservation Status", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
+                  "Reservation Status", "Date of Retirement", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
                   <th key={header} className="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-blue-100">
                     {header}
                   </th>
@@ -143,6 +143,7 @@ const EmployeeList = () => {
                   <td className="py-3 px-4">{employee.cause_of_vacancy}</td>
                   <td className="py-3 px-4">{employee.caste}</td>
                   <td className="py-3 px-4">{employee.posted_against_reservation}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_retirement)}</td>
                   <td className="py-3 px-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       employee.pwd ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'
