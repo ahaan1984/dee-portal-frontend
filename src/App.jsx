@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateEmployee from "./components/CreateEmployee";
+import ContactUs from "./components/ContactUs";
 import LoginPage from "./components/LoginPage";
 import UpdateEmployee from "./components/UpdateEmployees";
 import DistrictData from "./components/DistrictData";
@@ -15,6 +16,7 @@ function App() {
         <Header />
         <Navbar />
         <Routes>
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<DistrictData />} />
           <Route path="/create-employee" element={<CreateEmployee />} />
