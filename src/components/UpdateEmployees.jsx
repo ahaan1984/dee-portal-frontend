@@ -128,22 +128,24 @@ const UpdateEmployee = () => {
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {Object.keys(formData).map((key) =>
-                key !== 'pwd' && key !== 'ex_servicemen' ? (
-                  <div key={key} className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 capitalize">
-                      {key.replace(/_/g, ' ')}
-                    </label>
-                    <input
-                      type={key.includes('date') ? 'date' : 'text'}
-                      name={key}
-                      value={formData[key]}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                      required={!['cause_of_vacancy', 'caste'].includes(key)}
+            {Object.keys(formData).map((key) =>
+              key !== 'pwd' &&
+              key !== 'ex_servicemen' &&
+              key !== 'date_of_retirement' ? ( // Exclude 'date_of_retirement'
+                <div key={key} className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700 capitalize">
+                    {key.replace(/_/g, ' ')}
+                  </label>
+                  <input
+                    type={key.includes('date') ? 'date' : 'text'}
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    required={!['cause_of_vacancy', 'caste'].includes(key)}
                     />
                   </div>
-                ) : (
+                ) : key !== 'date_of_retirement' ? ( // Check again for conditional rendering
                   <div className="flex items-center" key={key}>
                     <input
                       type="checkbox"
@@ -156,7 +158,7 @@ const UpdateEmployee = () => {
                       {key.replace(/_/g, ' ')}
                     </label>
                   </div>
-                )
+                ) : null
               )}
             </div>
             <div className="flex gap-4 pt-4">

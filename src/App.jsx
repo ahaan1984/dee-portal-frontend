@@ -8,6 +8,7 @@ import LoginPage from "./components/LoginPage";
 import UpdateEmployee from "./components/UpdateEmployees";
 import DistrictData from "./components/DistrictData";
 import ForgotPassword from "./components/ForgotPassword";
+import PendingChangesDashboard from './components/PendingChangesDashboard';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/create-employee" element={<CreateEmployee />} />
           <Route path="/update-employee/:employee_id" element={<UpdateEmployee />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/pending-changes" element={<PendingChangesDashboard />} />
         </Routes>
         <Footer />
       </div>
