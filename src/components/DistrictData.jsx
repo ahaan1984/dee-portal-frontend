@@ -10,10 +10,14 @@ const EmployeeList = () => {
   const [userRole, setUserRole] = useState('viewer');
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [districts, setDistricts] = useState([]);
+
 
   useEffect(() => {
     fetchUserRole();
     fetchEmployeeData();
+    fetchDistricts();
   }, []);
 
   const fetchUserRole = () => {
@@ -24,11 +28,29 @@ const EmployeeList = () => {
     }
   };
 
-  const fetchEmployeeData = async () => {
+  const fetchDistricts = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:5000/api/districts', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setDistricts(response.data);
+    } catch (err) {
+      console.error('Failed to fetch districts:', err.response || err.message);
+    }
+  };
+
+  const handleDistrictChange = (e) => {
+    setSelectedDistrict(e.target.value);
+    fetchEmployeeData(e.target.value);
+  };
+
+  const fetchEmployeeData = async (district) => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:5000/api/employees', {
         headers: { Authorization: `Bearer ${token}` },
+        params: { district },
       });
       setEmployeeData(response.data);
       setLoading(false);
@@ -114,6 +136,25 @@ const EmployeeList = () => {
               </button>
             )}
           </div>
+          <div className="px-2 mt-4 mb-4">
+      <label htmlFor="district-select" className="block text-sm font-medium text-gray-700">
+        Filter by District:
+      </label>
+      <select
+        id="district-select"
+        value={selectedDistrict}
+        onChange={handleDistrictChange}
+        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      >
+        <option value="">All Districts</option>
+        {districts.map((district) => (
+          <option key={district} value={district}>
+            {district}
+          </option>
+        ))}
+      </select>
+    </div>    
+
         </div>
 
         <div className="overflow-x-auto">

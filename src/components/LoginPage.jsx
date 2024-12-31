@@ -37,9 +37,7 @@ const LoginPage = () => {
           <div className="flex items-center space-x-6">
             <img src="govt_logo.png" alt="Government of Assam" className="h-16 w-16 object-contain" />
             <div className="font-medium">
-              <div className="text-lg">শিক্ষাৰ অধিকাৰ</div>
-              <div className="text-sm text-gray-600">সৰ্বশিক্ষা অভিযান, অসম</div>
-              <div className="text-sm text-gray-600">সকলোৱে শিক্ষা সৰ্বাংগীন মাধ্যম।</div>
+              <div className="text-lg"> প্ৰাথমিক শিক্ষা সঞ্চালকালয়,অসম</div>
             </div>
           </div>
           <div className="flex items-center space-x-2 text-blue-600">
@@ -55,7 +53,7 @@ const LoginPage = () => {
           <div className="flex-1 bg-white rounded-xl p-8 shadow-lg border border-blue-100">
             <div className="space-y-6">
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-gray-900">SHIKSHA SETU AXOM</h1>
+                <h1 className="text-2xl font-bold text-gray-900">শিক্ষা সমন্বয়</h1>
                 <h2 className="text-xl font-semibold text-blue-600 mt-4">Department of School Education</h2>
               </div>
               
@@ -93,7 +91,7 @@ const LoginPage = () => {
                   <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>Username</span>
+                  <span>User ID</span>
                 </label>
                 <input
                   type="text"
