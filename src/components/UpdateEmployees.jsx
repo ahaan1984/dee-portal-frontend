@@ -2,6 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white rounded-lg p-6 max-w-sm w-full m-4">
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const UpdateEmployee = () => {
   const { employee_id } = useParams();
   const [formData, setFormData] = useState({
@@ -20,6 +32,7 @@ const UpdateEmployee = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,10 +81,15 @@ const UpdateEmployee = () => {
       await axios.put(`http://localhost:5000/api/employees/${employee_id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      navigate('/dashboard');
+      setShowSuccess(true);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to update employee');
     }
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccess(false);
+    navigate('/dashboard');
   };
 
   if (loading) {
@@ -128,24 +146,24 @@ const UpdateEmployee = () => {
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.keys(formData).map((key) =>
-              key !== 'pwd' &&
-              key !== 'ex_servicemen' &&
-              key !== 'date_of_retirement' ? ( // Exclude 'date_of_retirement'
-                <div key={key} className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 capitalize">
-                    {key.replace(/_/g, ' ')}
-                  </label>
-                  <input
-                    type={key.includes('date') ? 'date' : 'text'}
-                    name={key}
-                    value={formData[key]}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                    required={!['cause_of_vacancy', 'caste'].includes(key)}
+              {Object.keys(formData).map((key) =>
+                key !== 'pwd' &&
+                key !== 'ex_servicemen' &&
+                key !== 'date_of_retirement' ? (
+                  <div key={key} className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 capitalize">
+                      {key.replace(/_/g, ' ')}
+                    </label>
+                    <input
+                      type={key.includes('date') ? 'date' : 'text'}
+                      name={key}
+                      value={formData[key]}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                      required={!['cause_of_vacancy', 'caste'].includes(key)}
                     />
                   </div>
-                ) : key !== 'date_of_retirement' ? ( // Check again for conditional rendering
+                ) : key !== 'date_of_retirement' ? (
                   <div className="flex items-center" key={key}>
                     <input
                       type="checkbox"
@@ -179,6 +197,21 @@ const UpdateEmployee = () => {
           </form>
         </div>
       </div>
+
+      <Modal isOpen={showSuccess} onClose={handleSuccessClose}>
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Success</h2>
+          <p className="text-gray-600 mb-6">
+            Employee information has been updated successfully.
+          </p>
+          <button
+            onClick={handleSuccessClose}
+            className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Continue
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
