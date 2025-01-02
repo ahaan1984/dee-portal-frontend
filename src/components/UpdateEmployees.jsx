@@ -202,7 +202,7 @@ const UpdateEmployee = () => {
         <div className="text-center">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Success</h2>
           <p className="text-gray-600 mb-6">
-            Employee information has been updated successfully.
+              Request for update has been sent successfully. 
           </p>
           <button
             onClick={handleSuccessClose}

@@ -13,7 +13,6 @@ const EmployeeList = () => {
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [districts, setDistricts] = useState([]);
 
-
   useEffect(() => {
     fetchUserRole();
     fetchEmployeeData();
@@ -124,7 +123,8 @@ const EmployeeList = () => {
         <div className="p-6 border-b border-blue-100">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-900">Employee List</h1>
-            {(userRole === 'admin' || userRole === 'superadmin') && (
+            {(userRole === 'superadmin') && (
+            <div className="flex gap-2">
               <button
                 onClick={() => navigate('/create-employee')}
                 className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
@@ -134,7 +134,14 @@ const EmployeeList = () => {
                 </svg>
                 Create Employee
               </button>
-            )}
+              <button
+                onClick={() => navigate('/pending-changes')}
+                className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+              >
+                View Pending Changes
+              </button>
+            </div>
+          )}
           </div>
           <div className="px-2 mt-4 mb-4">
       <label htmlFor="district-select" className="block text-sm font-medium text-gray-700">
