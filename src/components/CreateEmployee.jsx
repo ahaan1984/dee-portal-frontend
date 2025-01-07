@@ -28,6 +28,10 @@ const CreateEmployee = () => {
     "PLANNING ASSTT", "Junior Assistant", "Stenographer", "Computor", "Driver", "Jamadar", 
     "DUFTRY", "Peon", "Assistant Planning Officer" 
     ];
+  const districts = ['Baksa',	'Barpeta', 'Bongaigaon','Cachar','Charaideo','Chirang','Darrang', 'Dhemaji','Dhubri', 
+    'Dibrugarh', 'Dima Hasao', 'Goalpara', 'Golaghat', 'Hailakandi', 'Jorhat', 'Kamrup Metropolitan', 'Kamrup', 'Karbi Anglong', 
+    'Karimganj', 'Kokrajhar', 'Lakhimpur', 'Majuli', 'Morigaon', 'Nagaon', 'Nalbari', 'Sivasagar', 'Sonitpur', 'South Salmara-Mankachar', 
+    'Tinsukia', 'Udalguri', 'West Karbi Anglong', 'Biswanath Chariali', 'Hojai', 'Bajali', 'Tamulpur']      
   const genders = ["Male", "Female", "Other"];
   const causesOfVacancy = ["Transfer", "Retirement", "Expiry", "Termination", "Resignation"];
   const castes = ["UR", "SC", "STP", "STH", "OBC/MOBC", "EWS"];
@@ -145,15 +149,18 @@ const CreateEmployee = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Place of Posting</label>
-                <input
-                  type="text"
+              <label className="block text-sm font-medium text-gray-700">Place of Posting</label>
+                <select
                   name="place_of_posting"
                   value={formData.place_of_posting}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  required
-                />
+                >
+                  <option value="">Select Place of Posting</option>
+                  {districts.map((cause) => (
+                    <option key={cause} value={cause}>{cause}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
