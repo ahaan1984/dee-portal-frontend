@@ -72,7 +72,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Desktop Menu */}
       <ul className="hidden md:flex space-x-6 px-6 py-3 items-center">
         <li className="bg-red-600 px-4 py-2 rounded cursor-pointer">Main</li>
         <li className="hover:text-gray-300 cursor-pointer" onClick={handleHomeClick}>🏠</li>
@@ -103,7 +102,6 @@ const Navbar = () => {
         <li className="hover:text-gray-300 cursor-pointer">More ☰</li>
       </ul>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-[#2A75BB] absolute top-full left-0 w-full z-50">
           {Object.keys(dropdownMenus).map((menu, index) => (

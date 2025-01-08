@@ -48,7 +48,6 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="mt-12 flex flex-col lg:flex-row gap-8 items-start">
           <div className="flex-1 bg-white rounded-xl p-8 shadow-lg border border-blue-100">
             <div className="space-y-6">

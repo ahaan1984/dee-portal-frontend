@@ -21,12 +21,11 @@ const CreateEmployee = () => {
   const navigate = useNavigate();
 
   const designations = ["Director"," Addl. Director, Elementary Education", "Joint Director , Elementary Education",  
-    "Deputy Director, Elementary Education", "SR. FINANCE & ACCOUNTS OFFICER", "Finance & Accounts Officer", "O.S.D.", 
-    "Astt. Dir. Elementary Education","EVALUATION AND MONITORING OFFICER", "Accounts Officer", "Research Officer", 
-    "Statistical Officer", "Registrar", "Inspecting Auditor", "Superintendent", "ASSTT. RESEARCH OFFICER", "ASSTT. STATISTICAL OFFICER", 
-    "RESEARCH ASSISTANT", "STATISTICAL ASSISTANT", "UPPER DIVISION ASSTT", "Progress Assistant", 
-    "PLANNING ASSTT", "Junior Assistant", "Stenographer", "Computor", "Driver", "Jamadar", 
-    "DUFTRY", "Peon", "Assistant Planning Officer" 
+    "Deputy Director, Elementary Education", "Sr. Finance and Accounts Officer", "Finance & Accounts Officer", "O.S.D.", 
+    "Astt. Dir. Elementary Education", "Evaluation and Monitoring Officer", "Accounts Officer", "Research Officer", 
+    "Statistical Officer", "Registrar", "Inspecting Auditor", "Superintendent", "Asstt. Research Officer", "Asstt. Statistical Officer", 
+    "Research Assistant", "Statistical Assistant", "Upper Division Assistant", "Progress Assistant", "Planning Assistant", 
+    "Junior Assistant", "Stenographer", "Computor", "Driver", "Jamadar", "Duftry", "Peon", "Assistant Planning Officer" 
     ];
   const districts = ['Baksa',	'Barpeta', 'Bongaigaon','Cachar','Charaideo','Chirang','Darrang', 'Dhemaji','Dhubri', 
     'Dibrugarh', 'Dima Hasao', 'Goalpara', 'Golaghat', 'Hailakandi', 'Jorhat', 'Kamrup Metropolitan', 'Kamrup', 'Karbi Anglong', 
