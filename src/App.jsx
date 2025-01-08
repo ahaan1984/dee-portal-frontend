@@ -9,6 +9,8 @@ import UpdateEmployee from "./components/UpdateEmployees";
 import DistrictData from "./components/DistrictData";
 import ForgotPassword from "./components/ForgotPassword";
 import PendingChangesDashboard from './components/PendingChangesDashboard';
+import RosterReport from "./components/RosterReport";
+import ReportPage from "./components/Report";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/update-employee/:employee_id" element={<UpdateEmployee />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/pending-changes" element={<PendingChangesDashboard />} />
+          <Route path="/roster" element={<RosterReport/>} />
+          <Route path="/report" element={<ReportPage />} />
         </Routes>
         <Footer />
       </div>
