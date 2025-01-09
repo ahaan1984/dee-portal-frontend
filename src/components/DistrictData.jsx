@@ -12,6 +12,7 @@ const EmployeeList = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [districts, setDistricts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); 
 
   useEffect(() => {
     fetchUserRole();
@@ -68,6 +69,10 @@ const EmployeeList = () => {
     setSelectedEmployee(employee);
     setShowModal(true);
   };
+
+  const filteredData = employeeData.filter((employee) =>
+    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const confirmDelete = async () => {
     try {
@@ -161,6 +166,15 @@ const EmployeeList = () => {
         ))}
       </select>
     </div>    
+    <div className="px-2 mb-4">
+            <input
+              type="text"
+              placeholder="Search by Name"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+          </div>
       </div>
 
         <div className="overflow-x-auto">
@@ -177,7 +191,7 @@ const EmployeeList = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-blue-100">
-              {employeeData.map((employee) => (
+              {filteredData.map((employee) => (
                 <tr key={employee.employee_id} className="hover:bg-blue-50 transition-colors">
                   <td className="py-3 px-4">{employee["S.No"]}</td>
                   <td className="py-3 px-4 font-medium">{employee.employee_id}</td>

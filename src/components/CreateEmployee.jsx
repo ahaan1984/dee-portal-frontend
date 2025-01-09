@@ -37,7 +37,7 @@ const CreateEmployee = () => {
     'Karimganj', 'Kokrajhar', 'Lakhimpur', 'Majuli', 'Morigaon', 'Nagaon', 'Nalbari', 'Sivasagar', 'Sonitpur', 'South Salmara-Mankachar', 
     'Tinsukia', 'Udalguri', 'West Karbi Anglong', 'Biswanath Chariali', 'Hojai', 'Bajali', 'Tamulpur']      
   const genders = ["Male", "Female", "Other"];
-  const causesOfVacancy = ["Transfer", "Retirement", "Expiry", "Termination", "Resignation"];
+  const causesOfVacancy = ["Retirement", "Expiry", "Transfer", "Resignation", "Termination"];
   const castes = ["UR", "SC", "STP", "STH", "OBC/MOBC", "EWS"];
   const reservations = ["Yes", "No"];
 
