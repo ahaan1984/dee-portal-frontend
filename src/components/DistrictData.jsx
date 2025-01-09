@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Pagination from './Pagination';
 
 const EmployeeList = () => {
   const navigate = useNavigate();
@@ -13,12 +14,15 @@ const EmployeeList = () => {
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [districts, setDistricts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     fetchUserRole();
     fetchEmployeeData();
     fetchDistricts();
-  }, []);
+  }, [currentPage]);
 
   const fetchUserRole = () => {
     const token = localStorage.getItem('token');
@@ -52,7 +56,10 @@ const EmployeeList = () => {
         headers: { Authorization: `Bearer ${token}` },
         params: { district },
       });
-      setEmployeeData(response.data);
+      setTotalItems(response.data.length);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const paginatedData = response.data.slice(startIndex, startIndex + itemsPerPage);
+      setEmployeeData(paginatedData);
       setLoading(false);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch data');
@@ -249,6 +256,10 @@ const EmployeeList = () => {
               ))}
             </tbody>
           </table>
+          <Pagination 
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalItems/itemsPerPage)} 
+          onPageChange={setCurrentPage}/>
         </div>
       </div>
 

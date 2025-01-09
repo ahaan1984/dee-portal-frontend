@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import Pagination from './Pagination';
 
 const PendingChangesDashboard = () => {
   const [changes, setChanges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     fetchPendingChanges();
@@ -157,7 +161,13 @@ const PendingChangesDashboard = () => {
               </tbody>
             </table>
           </div>
+
+          
         )}
+         <Pagination 
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalItems/itemsPerPage)} 
+          onPageChange={setCurrentPage}/>
       </div>
     </div>
   );

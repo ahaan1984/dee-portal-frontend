@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Pagination from './Pagination';
 
 const RosterReport = () => {
   const [rosterData, setRosterData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
   // Sample roster structure parsed from Excel
   const rosterPoints = [
@@ -27,7 +31,6 @@ const RosterReport = () => {
       const usedEmployeeIds = new Set(); // To track used employees
 
       rosterPoints.forEach((rosterPoint) => {
-        // Filter employees based on roster point criteria
         const filteredEmployees = employees.filter((employee) => {
           return (
             !usedEmployeeIds.has(employee.employee_id) &&
@@ -97,6 +100,10 @@ const RosterReport = () => {
               ))}
             </tbody>
           </table>
+          <Pagination 
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalItems/itemsPerPage)} 
+          onPageChange={setCurrentPage}/>
         </div>
       </div>
     </div>

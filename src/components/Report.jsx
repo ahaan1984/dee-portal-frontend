@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Pagination from './Pagination';
+
 const ReportPage = () => {
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     fetchReportData();
@@ -32,7 +37,6 @@ const ReportPage = () => {
         responseType: 'blob', // Ensures the response is handled as a file
       });
 
-      // Create a URL for the blob and initiate download
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -123,6 +127,10 @@ const ReportPage = () => {
             ))}
           </tbody>
         </table>
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalItems/itemsPerPage)} 
+          onPageChange={setCurrentPage}/>
       </div>
     </div>
   );
