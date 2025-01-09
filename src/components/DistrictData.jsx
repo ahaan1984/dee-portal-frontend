@@ -14,6 +14,7 @@ const EmployeeList = () => {
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [districts, setDistricts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); 
+  const [dobMonthQuery, setDobMonthQuery] = useState(''); // For DOB month-based search
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [totalItems, setTotalItems] = useState(0);
@@ -77,9 +78,20 @@ const EmployeeList = () => {
     setShowModal(true);
   };
 
-  const filteredData = employeeData.filter((employee) =>
-    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const extractMonth = (isoString) => {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    return date.toLocaleString('default', { month: 'long' });
+  };
+
+  const filteredData = employeeData.filter((employee) => {
+    const matchesName = employee.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDOBMonth = dobMonthQuery
+      ? extractMonth(employee.date_of_birth).toLowerCase().includes(dobMonthQuery.toLowerCase())
+      : true;
+    return matchesName && matchesDOBMonth;
+  });
+  
 
   const confirmDelete = async () => {
     try {
@@ -179,6 +191,15 @@ const EmployeeList = () => {
               placeholder="Search by Name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+          </div>
+          <div className="px-2 mb-4">
+            <input
+              type="text"
+              placeholder="Search by Month of DOB (e.g., January)"
+              value={dobMonthQuery}
+              onChange={(e) => setDobMonthQuery(e.target.value)}
               className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
