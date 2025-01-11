@@ -6,7 +6,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-4 mt-4">
+    <div className="flex justify-center items-center gap-4 my-4">
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"

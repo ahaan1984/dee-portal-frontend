@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Pagination from './Pagination';
+import ExportToExcel from './ExportToExcel';
 
 const ReportPage = () => {
   const [reportData, setReportData] = useState([]);
@@ -15,6 +16,11 @@ const ReportPage = () => {
     fetchReportData();
   }, []);
 
+  const formatDate = (isoString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(isoString).toLocaleDateString(undefined, options);
+  };
+
   const fetchReportData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -22,31 +28,11 @@ const ReportPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setReportData(response.data);
+      setTotalItems(response.data.length);
       setLoading(false);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch report data');
       setLoading(false);
-    }
-  };
-
-  const handleExportToExcel = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/reports/excel-siu', {
-        headers: { Authorization: `Bearer ${token}` },
-        responseType: 'blob', // Ensures the response is handled as a file
-      });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'report.xlsx');
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (err) {
-      console.error('Error exporting to Excel:', err);
-      alert('Failed to export to Excel.');
     }
   };
 
@@ -75,12 +61,8 @@ const ReportPage = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Report Page</h1>
-      <button
-        onClick={handleExportToExcel}
-        className="mb-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-      >
-        Save as Worksheet
-      </button>
+
+      <ExportToExcel fileLink={'http://localhost:5000/api/reports/excel'} fileName={"siu-report.xlsx"} />
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
@@ -117,7 +99,7 @@ const ReportPage = () => {
                 <td className="px-4 py-2 border">{row.incumbentName}</td>
                 <td className="px-4 py-2 border">{row.postName}</td>
                 <td className="px-4 py-2 border">{row.causeOfVacancy}</td>
-                <td className="px-4 py-2 border">{row.dateOfVacancy}</td>
+                <td className="px-4 py-2 border">{formatDate(row.dateOfVacancy)}</td>
                 <td className="px-4 py-2 border">{row.creationNo}</td>
                 <td className="px-4 py-2 border">{row.retentionNo}</td>
                 <td className="px-4 py-2 border">{row.sanctionedPost}</td>

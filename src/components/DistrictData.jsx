@@ -14,7 +14,7 @@ const EmployeeList = () => {
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [districts, setDistricts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); 
-  const [dobMonthQuery, setDobMonthQuery] = useState(''); // For DOB month-based search
+  const [dobMonthQuery, setDobMonthQuery] = useState(''); 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [totalItems, setTotalItems] = useState(0);
