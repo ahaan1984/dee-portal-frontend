@@ -22,7 +22,7 @@ const LoginPage = () => {
       localStorage.setItem('token', token);
       
       const payload = JSON.parse(atob(token.split('.')[1]));
-      if (['viewer', 'admin', 'superadmin'].includes(payload.role)) {
+      if (['viewer', 'admin', 'superadmin', 'district_admin'].includes(payload.role)) {
         navigate('/dashboard');
       }
     } catch (err) {

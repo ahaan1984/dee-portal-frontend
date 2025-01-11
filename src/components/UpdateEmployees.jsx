@@ -43,6 +43,7 @@ const UpdateEmployee = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+
         const formatDate = (isoString) =>
           isoString ? new Date(isoString).toISOString().split('T')[0] : '';
 

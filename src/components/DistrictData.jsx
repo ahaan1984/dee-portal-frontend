@@ -28,10 +28,13 @@ const EmployeeList = () => {
   const fetchUserRole = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      setUserRole(payload.role);
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setUserRole(payload.role);
+        if (payload.role === 'district_admin') {
+            setSelectedDistrict(payload.district); 
+        }
     }
-  };
+};;
 
   const fetchDistricts = async () => {
     try {
@@ -167,25 +170,26 @@ const EmployeeList = () => {
             </div>
           )}
           </div>
-          <div className="px-2 mt-4 mb-4">
-      <label htmlFor="district-select" className="block text-sm font-medium text-gray-700">
-        Filter by District:
-      </label>
-      <select
-        id="district-select"
-        value={selectedDistrict}
-        onChange={handleDistrictChange}
-        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-      >
-        <option value="">All Districts</option>
-        {districts.map((district) => (
-          <option key={district} value={district}>
-            {district}
-          </option>
-        ))}
-      </select>
-    </div>    
-    <div className="px-2 mb-4">
+
+    {userRole !== 'district_admin' && (
+        <div className="px-2 mt-4 mb-4">
+            <label htmlFor="district-select" className="block text-sm font-medium text-gray-700">
+                Filter by District:
+            </label>
+            <select
+                id="district-select"
+                value={selectedDistrict}
+                onChange={handleDistrictChange}
+                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm"
+            >
+                <option value="">All Districts</option>
+                {districts.map((district) => (
+                    <option key={district} value={district}>{district}</option>
+                ))}
+            </select>
+        </div>
+    )}
+    <div className="px-2 my-4">
             <input
               type="text"
               placeholder="Search by Name"
@@ -194,7 +198,7 @@ const EmployeeList = () => {
               className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
-          <div className="px-2 mb-4">
+          <div className="px-2 mb-2">
             <input
               type="text"
               placeholder="Search by Month of DOB (e.g., January)"

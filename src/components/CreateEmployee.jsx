@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,6 +65,16 @@ const CreateEmployee = () => {
       setError(err.response?.data?.error || 'Failed to create employee');
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.role === 'district_admin') {
+            setFormData({ ...formData, place_of_posting: payload.district });
+        }
+    }
+}, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 py-8 px-4">
