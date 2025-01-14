@@ -28,13 +28,10 @@ const EmployeeList = () => {
   const fetchUserRole = () => {
     const token = localStorage.getItem('token');
     if (token) {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        setUserRole(payload.role);
-        if (payload.role === 'district_admin') {
-            setSelectedDistrict(payload.district); 
-        }
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUserRole(payload.role);
     }
-};;
+  };
 
   const fetchDistricts = async () => {
     try {
