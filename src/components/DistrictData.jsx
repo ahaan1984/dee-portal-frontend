@@ -115,9 +115,15 @@ const EmployeeList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative w-24 h-24">
+            <div className="absolute inset-0 rounded-full border-t-4 border-blue-500 animate-spin"></div>
+            <div className="absolute inset-4 rounded-full border-4 border-blue-100"></div>
+          </div>
+          <p className="text-blue-600 font-medium text-lg animate-pulse">
+            Loading employee records...
+          </p>
         </div>
       </div>
     );
@@ -126,19 +132,33 @@ const EmployeeList = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
-        <div className="max-w-6xl mx-auto bg-red-50 border border-red-200 rounded-xl p-6 shadow-lg">
-          <p className="text-red-600 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Error loading employee data: {error}
-          </p>
-          <button 
-            onClick={fetchEmployeeData}
-            className="mt-4 px-6 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
-          >
-            Retry
-          </button>
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="p-8 border-l-4 border-red-500 flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Unable to Load Data</h3>
+                <p className="text-gray-600 mb-4">{error}</p>
+                <button 
+                  onClick={fetchEmployeeData}
+                  className="inline-flex items-center px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Retry Loading
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -146,83 +166,102 @@ const EmployeeList = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
-        <div className="p-6 border-b border-blue-100">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Employee List</h1>
-            {(userRole === 'superadmin') && (
-            <div className="flex gap-2">
-              <button
-                onClick={() => navigate('/create-employee')}
-                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-                Create Employee
-              </button>
-              <button
-                onClick={() => navigate('/pending-changes')}
-                className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
-              >
-                View Pending Changes
-              </button>
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {/* Header Section */}
+          <div className="p-6 sm:p-8 border-b border-blue-100">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+              <h1 className="text-2xl font-bold text-gray-900">Employee Directory</h1>
+              {userRole === 'superadmin' && (
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={() => navigate('/create-employee')}
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                  >
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    New Employee
+                  </button>
+                  <button
+                    onClick={() => navigate('/pending-changes')}
+                    className="inline-flex items-center px-4 py-2 bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors shadow-sm"
+                  >
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Pending Changes
+                  </button>
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Filters Section */}
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {userRole !== 'district_admin' && (
+                <div className="space-y-1">
+                  <label htmlFor="district-select" className="text-sm font-medium text-gray-700">
+                    District Filter
+                  </label>
+                  <select
+                    id="district-select"
+                    value={selectedDistrict}
+                    onChange={handleDistrictChange}
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  >
+                    <option value="">All Districts</option>
+                    {districts.map((district) => (
+                      <option key={district} value={district}>{district}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">Name Search</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search by name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
+                  <svg className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">Birth Month</label>
+                <input
+                  type="text"
+                  placeholder="e.g. January"
+                  value={dobMonthQuery}
+                  onChange={(e) => setDobMonthQuery(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                />
+              </div>
+            </div>
           </div>
 
-    {userRole !== 'district_admin' && (
-        <div className="px-2 mt-4 mb-4">
-            <label htmlFor="district-select" className="block text-sm font-medium text-gray-700">
-                Filter by District:
-            </label>
-            <select
-                id="district-select"
-                value={selectedDistrict}
-                onChange={handleDistrictChange}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm"
-            >
-                <option value="">All Districts</option>
-                {districts.map((district) => (
-                    <option key={district} value={district}>{district}</option>
-                ))}
-            </select>
-        </div>
-    )}
-    <div className="px-2 my-4">
-            <input
-              type="text"
-              placeholder="Search by Name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-          <div className="px-2 mb-2">
-            <input
-              type="text"
-              placeholder="Search by Month of DOB (e.g., January)"
-              value={dobMonthQuery}
-              onChange={(e) => setDobMonthQuery(e.target.value)}
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-      </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-blue-50">
-              <tr>
-                {["S.No", "Employee ID", "Name", "Designation", "Gender", "Place of Posting", 
-                  "Date of Birth", "Date of Joining", "Cause of Vacancy", "Caste", 
-                  "Reservation Status", "Date of Retirement", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
-                  <th key={header} className="py-3 px-4 text-left text-sm font-semibold text-gray-700 border-b border-blue-100">
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-blue-100">
+          {/* Table Section */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50 border-y border-gray-200">
+                  {["S.No", "Employee ID", "Name", "Designation", "Gender", "Place of Posting", 
+                    "Date of Birth", "Date of Joining", "Cause of Vacancy", "Caste", 
+                    "Reservation Status", "Date of Retirement", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
+                    <th key={header} className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
               {filteredData.map((employee) => (
                 <tr key={employee.employee_id} className="hover:bg-blue-50 transition-colors">
                   <td className="py-3 px-4">{employee["S.No"]}</td>
@@ -279,33 +318,50 @@ const EmployeeList = () => {
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </table>
-          <Pagination 
-          currentPage={currentPage}
-          totalPages={Math.ceil(totalItems/itemsPerPage)} 
-          onPageChange={setCurrentPage}/>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination Section */}
+          <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(totalItems/itemsPerPage)}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </div>
       </div>
 
+      {/* Delete Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg w-96 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Confirm Deletion</h2>
-            <p className="text-gray-700 mb-6">
-              Are you sure you want to delete employee <span className="font-medium">{selectedEmployee.name}</span>?
-              This action cannot be undone.
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 m-4">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Confirm Delete</h3>
+                <p className="text-sm text-gray-500">This action cannot be undone</p>
+              </div>
+            </div>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete the record for <span className="font-medium">{selectedEmployee?.name}</span>?
             </p>
-            <div className="flex justify-end gap-4">
+            <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
               >
                 Delete
               </button>
