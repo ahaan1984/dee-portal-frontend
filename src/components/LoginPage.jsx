@@ -7,30 +7,138 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPasswordSetup, setShowPasswordSetup] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const validatePassword = (pass) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(pass);
+    const hasLowerCase = /[a-z]/.test(pass);
+    const hasNumbers = /\d/.test(pass);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(pass);
+
+    if (pass.length < minLength) return "Password must be at least 8 characters long";
+    if (!hasUpperCase) return "Password must contain at least one uppercase letter";
+    if (!hasLowerCase) return "Password must contain at least one lowercase letter";
+    if (!hasNumbers) return "Password must contain at least one number";
+    if (!hasSpecialChar) return "Password must contain at least one special character";
+    return null;
+  };
+
+  const handlePasswordSetup = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      // First create the password
+      await axios.post('http://localhost:5000/api/reset-password', {
+        username,
+        newPassword,
+      });
+      
+      // Clear the password setup form
+      setNewPassword('');
+      setConfirmPassword('');
+      
+      setShowPasswordSetup(false);
+      setError('Password set successfully. Please login with your new password.');
+      setPassword('');
+      
+    } catch (err) {
+      setError(err.response?.data?.error || 'Password setup failed');
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/login', {
+      // First, check if user exists and has password
+      const checkUserResponse = await axios.post('http://localhost:5000/api/check-user', {
+        username
+      });
+
+      if (checkUserResponse.data.requiresPasswordSetup) {
+        setShowPasswordSetup(true);
+        return;
+      }
+
+      // Proceed with normal login
+      const loginResponse = await axios.post('http://localhost:5000/api/login', {
         username,
         password,
       });
 
-      const { token } = response.data;
+      const { token } = loginResponse.data;
       localStorage.setItem('token', token);
       
       const payload = JSON.parse(atob(token.split('.')[1]));
-      if (['viewer', 'admin', 'superadmin'].includes(payload.role)) {
+      if (['viewer', 'admin', 'superadmin', 'district_admin', 'district_viewer'].includes(payload.role)) {
         navigate('/dashboard');
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
   };
+
+  if (showPasswordSetup) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 flex items-center justify-center">
+        <div className="w-full max-w-md bg-white rounded-xl p-8 shadow-lg border border-blue-100">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Set Your Password</h2>
+          <form onSubmit={handlePasswordSetup} className="space-y-6">
+            <div className="space-y-2">
+              <label className="block text-gray-700 font-medium">New Password</label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-gray-700 font-medium">Confirm Password</label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && (
+              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg flex items-center space-x-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              Set Password and Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50">

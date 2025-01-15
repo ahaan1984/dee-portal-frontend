@@ -22,14 +22,19 @@ const EmployeeList = () => {
   useEffect(() => {
     fetchUserRole();
     fetchEmployeeData();
-    fetchDistricts();
-  }, [currentPage]);
+    if (userRole === 'superadmin' || userRole === 'admin') {
+      fetchDistricts();
+    }
+  }, [currentPage, userRole]);
 
   const fetchUserRole = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       setUserRole(payload.role);
+      if (payload.role.includes('district')) {
+        setSelectedDistrict(payload.district);
+      }
     }
   };
 
@@ -91,7 +96,6 @@ const EmployeeList = () => {
       : true;
     return matchesName && matchesDOBMonth;
   });
-  
 
   const confirmDelete = async () => {
     try {
@@ -109,6 +113,8 @@ const EmployeeList = () => {
       alert('Failed to delete employee');
     }
   };
+
+  const showDistrictFilter = userRole === 'superadmin' || userRole === 'admin';
 
   if (loading) {
     return (
@@ -195,8 +201,8 @@ const EmployeeList = () => {
             </div>
 
             {/* Filters Section */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {userRole !== 'district_admin' && (
+            <div className={`mt-6 grid grid-cols-1 md:grid-cols-${showDistrictFilter ? '3' : '2'} gap-4`}>
+            {showDistrictFilter && (
                 <div className="space-y-1">
                   <label htmlFor="district-select" className="text-sm font-medium text-gray-700">
                     District Filter
@@ -244,7 +250,6 @@ const EmployeeList = () => {
             </div>
           </div>
 
-          {/* Table Section */}
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -319,7 +324,6 @@ const EmployeeList = () => {
             </table>
           </div>
 
-          {/* Pagination Section */}
           <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
             <Pagination
               currentPage={currentPage}
@@ -330,7 +334,6 @@ const EmployeeList = () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 m-4">

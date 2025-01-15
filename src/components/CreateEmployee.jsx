@@ -25,28 +25,56 @@ const CreateEmployee = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const designations = ["Director"," Addl. Director", "Joint Director, Elementary Education",  
+  const designations = ["Director", "Addl. Director", "Joint Director, Elementary Education",  
     "Deputy Director, Elementary Education", "Sr. Finance and Accounts Officer", "Finance & Accounts Officer", "O.S.D.", 
     "Astt. Dir. Elementary Education", "Evaluation and Monitoring Officer", "Accounts Officer", "Research Officer", 
     "Statistical Officer", "Registrar", "Inspecting Auditor", "Superintendent", "Asstt. Research Officer", "Asstt. Statistical Officer", 
     "Research Assistant", "Statistical Assistant", "Upper Division Assistant", "Progress Assistant", "Planning Assistant", 
-    "Junior Assistant", "Stenographer", "Computor", "Driver", "Jamadar", "Duftry", "Peon", "Assistant Planning Officer" 
-    ];
-  const districts = ['Baksa',	'Barpeta', 'Bongaigaon','Cachar','Charaideo','Chirang','Darrang', 'Dhemaji','Dhubri', 
-    'Dibrugarh', 'Dima Hasao', 'Goalpara', 'Golaghat', 'Hailakandi', 'Jorhat', 'Kamrup Metropolitan', 'Kamrup', 'Karbi Anglong', 
-    'Karimganj', 'Kokrajhar', 'Lakhimpur', 'Majuli', 'Morigaon', 'Nagaon', 'Nalbari', 'Sivasagar', 'Sonitpur', 'South Salmara-Mankachar', 
-    'Tinsukia', 'Udalguri', 'West Karbi Anglong', 'Biswanath Chariali', 'Hojai', 'Bajali', 'Tamulpur']      
+    "Junior Assistant", "Stenographer", "Computor", "Driver", "Jamadar", "Duftry", "Peon", "Assistant Planning Officer"
+  ];
+  
+  const districts = ['Baksa', 'Barpeta', 'Bongaigaon', 'Cachar', 'Charaideo', 'Chirang', 'Darrang', 
+    'Dhemaji', 'Dhubri', 'Dibrugarh', 'Dima Hasao', 'Goalpara', 'Golaghat', 
+    'Hailakandi', 'Jorhat', 'Kamrup Metropolitan', 'Kamrup', 'Karbi Anglong',
+    'Karimganj', 'Kokrajhar', 'Lakhimpur', 'Majuli', 'Morigaon', 'Nagaon', 
+    'Nalbari', 'Sivasagar', 'Sonitpur', 'South Salmara-Mankachar', 'Tinsukia',
+    'Udalguri', 'West Karbi Anglong', 'Biswanath Chariali', 'Hojai', 'Bajali', 'Tamulpur'
+  ];
+  
   const genders = ["Male", "Female", "Other"];
   const causesOfVacancy = ["Retirement", "Expiry", "Transfer", "Resignation", "Termination"];
   const castes = ["UR", "SC", "STP", "STH", "OBC/MOBC", "EWS"];
   const reservations = ["Yes", "No"];
 
+  const getDistrictFromID = (employeeID) => {
+    if (!employeeID || employeeID.length < 2) return '';
+    
+    const districtCode = parseInt(employeeID.slice(0, 2));
+    if (districtCode === 0) return '';
+    
+    if (districtCode > 0 && districtCode <= districts.length) {
+      return districts[districtCode - 1];
+    }
+    return '';
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    
+    if (name === 'employee_id') {
+      const district = getDistrictFromID(value);
+      
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+        ...(district && { place_of_posting: district })
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -94,92 +122,92 @@ const CreateEmployee = () => {
             </div>
           )}
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { label: 'Employee ID', name: 'employee_id', type: 'text', required: true },
-            { label: 'Name', name: 'name', type: 'text', required: true },
-            { label: 'Designation', name: 'designation', type: 'select', options: designations, required: true },
-            { label: 'Gender', name: 'gender', type: 'select', options: genders, required: true },
-            { label: 'Place of Posting', name: 'place_of_posting', type: 'select', options: districts },
-            { label: 'Date of Birth', name: 'date_of_birth', type: 'date', required: true },
-            { label: 'Date of Joining', name: 'date_of_joining', type: 'date', required: true },
-            { label: 'Cause of Vacancy', name: 'cause_of_vacancy', type: 'select', options: causesOfVacancy },
-            { label: 'Caste', name: 'caste', type: 'select', options: castes },
-            { label: 'Posted Against Reservation', name: 'posted_against_reservation', type: 'select', options: reservations },
-            { label: 'Assembly Constituency', name: 'assembly_constituency', type: 'text' },
-            { label: 'Creation No', name: 'creation_no', type: 'text' },
-            { label: 'Retention No', name: 'retention_no', type: 'text' },
-            { label: 'Man in Position', name: 'man_in_position', type: 'text' },
-            { label: 'Name of Treasury', name: 'name_of_treasury', type: 'text' }
-          ].map(({ label, name, type, options, required }) => (
-            <div className="space-y-2" key={name}>
-              <label className="block text-sm font-medium text-gray-700">{label}</label>
-              {type === 'select' ? (
-                <select
-                  name={name}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  required={required}
-                >
-                  <option value="">{`Select ${label}`}</option>
-                  {options.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  type={type}
-                  name={name}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  required={required}
-                />
-              )}
+          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { label: 'Employee ID', name: 'employee_id', type: 'text', required: true },
+                { label: 'Name', name: 'name', type: 'text', required: true },
+                { label: 'Designation', name: 'designation', type: 'select', options: designations, required: true },
+                { label: 'Gender', name: 'gender', type: 'select', options: genders, required: true },
+                { label: 'Place of Posting', name: 'place_of_posting', type: 'select', options: districts, required: true },
+                { label: 'Date of Birth', name: 'date_of_birth', type: 'date', required: true },
+                { label: 'Date of Joining', name: 'date_of_joining', type: 'date', required: true },
+                { label: 'Cause of Vacancy', name: 'cause_of_vacancy', type: 'select', options: causesOfVacancy },
+                { label: 'Caste', name: 'caste', type: 'select', options: castes },
+                { label: 'Posted Against Reservation', name: 'posted_against_reservation', type: 'select', options: reservations },
+                { label: 'Assembly Constituency', name: 'assembly_constituency', type: 'text' },
+                { label: 'Creation No', name: 'creation_no', type: 'text' },
+                { label: 'Retention No', name: 'retention_no', type: 'text' },
+                { label: 'Man in Position', name: 'man_in_position', type: 'text' },
+                { label: 'Name of Treasury', name: 'name_of_treasury', type: 'text' }
+              ].map(({ label, name, type, options, required }) => (
+                <div className="space-y-2" key={name}>
+                  <label className="block text-sm font-medium text-gray-700">{label}</label>
+                  {type === 'select' ? (
+                    <select
+                      name={name}
+                      value={formData[name]}
+                      onChange={handleChange}
+                      disabled={name === 'place_of_posting' && formData.employee_id && formData.employee_id.length >= 2}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                      required={required}
+                    >
+                      <option value="">{`Select ${label}`}</option>
+                      {options.map(option => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={type}
+                      name={name}
+                      value={formData[name]}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                      required={required}
+                    />
+                  )}
+                </div>
+              ))}
+              <div className="flex flex-col sm:flex-row gap-4 col-span-2">
+                <label className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
+                  <input
+                    type="checkbox"
+                    name="pwd"
+                    checked={formData.pwd}
+                    onChange={handleChange}
+                    className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">PWD</span>
+                </label>
+                <label className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
+                  <input
+                    type="checkbox"
+                    name="ex_servicemen"
+                    checked={formData.ex_servicemen}
+                    onChange={handleChange}
+                    className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Ex-Servicemen</span>
+                </label>
+              </div>
             </div>
-          ))}
-          <div className="flex flex-col sm:flex-row gap-4 col-span-2">
-            <label className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
-              <input
-                type="checkbox"
-                name="pwd"
-                checked={formData.pwd}
-                onChange={handleChange}
-                className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <span className="text-sm font-medium text-gray-700">PWD</span>
-            </label>
-            <label className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
-              <input
-                type="checkbox"
-                name="ex_servicemen"
-                checked={formData.ex_servicemen}
-                onChange={handleChange}
-                className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <span className="text-sm font-medium text-gray-700">Ex-Servicemen</span>
-            </label>
-          </div>
-        </div>
-        <div className="flex gap-4 pt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/dashboard')}
-            className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Create Employee
-          </button>
-        </div>
-      </form>
-
+            <div className="flex gap-4 pt-4">
+              <button
+                type="button"
+                onClick={() => navigate('/dashboard')}
+                className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Create Employee
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
