@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ImageSlider from './ImageSlider'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +11,8 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const API_BASE_URL = "https://dee-portal-backend.onrender.com/api";
 
   const validatePassword = (pass) => {
     const minLength = 8;
@@ -42,13 +45,10 @@ const LoginPage = () => {
     }
 
     try {
-      // First create the password
-      await axios.post('http://localhost:5000/api/reset-password', {
+      await axios.post(`${API_BASE_URL}/reset-password`, {
         username,
         newPassword,
       });
-      
-      // Clear the password setup form
       setNewPassword('');
       setConfirmPassword('');
       
@@ -66,8 +66,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      // First, check if user exists and has password
-      const checkUserResponse = await axios.post('http://localhost:5000/api/check-user', {
+      const checkUserResponse = await axios.post(`${API_BASE_URL}/check-user`, {
         username
       });
 
@@ -76,8 +75,7 @@ const LoginPage = () => {
         return;
       }
 
-      // Proceed with normal login
-      const loginResponse = await axios.post('http://localhost:5000/api/login', {
+      const loginResponse = await axios.post(`${API_BASE_URL}/login`, {
         username,
         password,
       });
@@ -162,7 +160,7 @@ const LoginPage = () => {
           <div className="flex-1 bg-white rounded-xl p-8 shadow-lg border border-blue-100">
             <div className="space-y-6">
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-gray-900">শিক্ষা সমন্বয়</h1>
+                <h1 className="text-2xl font-bold text-gray-900">বিদ্যালয় শিক্ষা বিভাগ, অসম                </h1>
                 <h2 className="text-xl font-semibold text-blue-600 mt-4">Department of School Education</h2>
               </div>
               
@@ -180,13 +178,7 @@ const LoginPage = () => {
                   </div>
                   <p className="text-lg">Designed to serve as a single source of information for day-to-day administrative operations.</p>
                 </div>
-                
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-blue-600 font-semibold">E</span>
-                  </div>
-                  <p className="text-lg">Enabler for the department to take timely and data-driven decisions for optimization of resources.</p>
-                </div>
+                <ImageSlider /> 
               </div>
             </div>
           </div>

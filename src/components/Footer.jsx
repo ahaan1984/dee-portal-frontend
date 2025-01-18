@@ -4,7 +4,7 @@ const Footer = () => {
       <p>&copy; 2024 Government of Assam. All Rights Reserved.</p>
       <div className="mt-2">
         <a href="/" className="hover:underline">Privacy Policy</a> | 
-        <a href="/" className="hover:underline ml-2">Terms of Use</a>
+        <a href="/" className="hover:underline ml-2">Terms of Use</a> | Developed by R & R Enterprises
       </div>
     </footer>
   );

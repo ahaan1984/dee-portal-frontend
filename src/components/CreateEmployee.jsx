@@ -17,6 +17,10 @@ const CreateEmployee = () => {
     assembly_constituency: '',
     creation_no: '', 
     retention_no: '',
+    date_of_suspension: '',
+    date_of_reinstatement: '',
+    date_of_promotion: '',
+    date_of_regularisation: '',
     man_in_position: '', 
     name_of_treasury: '',
     pwd: false,
@@ -138,6 +142,10 @@ const CreateEmployee = () => {
                 { label: 'Assembly Constituency', name: 'assembly_constituency', type: 'text' },
                 { label: 'Creation No', name: 'creation_no', type: 'text' },
                 { label: 'Retention No', name: 'retention_no', type: 'text' },
+                { label: 'Date of Suspension', name: 'date_of_suspension', type: 'date' },
+                { label: 'Date of Reinstatement', name: 'date_of_reinstatement', type: 'date' },
+                { label: 'Date of Promotion', name: 'date_of_promotion', type: 'date' },
+                { label: 'Date of Regularisation', name: 'date_of_regularisation', type: 'date' },
                 { label: 'Man in Position', name: 'man_in_position', type: 'text' },
                 { label: 'Name of Treasury', name: 'name_of_treasury', type: 'text' }
               ].map(({ label, name, type, options, required }) => (

@@ -21,16 +21,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="mt-4 md:mt-0 w-full md:w-auto flex items-center">
-        <input
-          type="text"
-          placeholder="Search"
-          className="w-full md:w-64 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <button className="bg-blue-600 text-white p-2 rounded-r-lg">
-          <i className="fas fa-search"></i>
-        </button>
-      </div>
+
     </div>
   );
 };

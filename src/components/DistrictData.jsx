@@ -19,15 +19,32 @@ const EmployeeList = () => {
   const itemsPerPage = 10;
   const [totalItems, setTotalItems] = useState(0);
 
-  useEffect(() => {
-    fetchUserRole();
-    fetchEmployeeData();
-    if (userRole === 'superadmin' || userRole === 'admin') {
-      fetchDistricts();
-    }
-  }, [currentPage, userRole]);
+  const API_BASE_URL = "https://dee-portal-backend.onrender.com/api";
 
-  const fetchUserRole = () => {
+  useEffect(() => {
+    const initializeData = async () => {
+      await fetchUserRole();
+      if (userRole === 'superadmin' || userRole === 'admin') {
+        await fetchDistricts();
+      }
+    };
+    initializeData();
+  }, []);
+
+  useEffect(() => {
+    const loadEmployeeData = async () => {
+      if (userRole) {  
+        if (userRole.includes('district')) {
+          await fetchEmployeeData(selectedDistrict);
+        } else {
+          await fetchEmployeeData(selectedDistrict || '');
+        }
+      }
+    };
+    loadEmployeeData();
+  }, [currentPage, userRole, selectedDistrict]); 
+
+  const fetchUserRole = async () => {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -41,27 +58,34 @@ const EmployeeList = () => {
   const fetchDistricts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/districts', {
+      const response = await axios.get(`${API_BASE_URL}/employees`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDistricts(response.data);
     } catch (err) {
       console.error('Failed to fetch districts:', err.response || err.message);
+      setError('Failed to fetch districts');
     }
   };
 
   const handleDistrictChange = (e) => {
-    setSelectedDistrict(e.target.value);
-    fetchEmployeeData(e.target.value);
+    const newDistrict = e.target.value;
+    setSelectedDistrict(newDistrict);
   };
 
   const fetchEmployeeData = async (district) => {
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:5000/api/employees', {
         headers: { Authorization: `Bearer ${token}` },
-        params: { district },
+        params: { 
+          district: district || '',
+          page: currentPage,
+          limit: itemsPerPage
+        },
       });
+      
       setTotalItems(response.data.length);
       const startIndex = (currentPage - 1) * itemsPerPage;
       const paginatedData = response.data.slice(startIndex, startIndex + itemsPerPage);
@@ -72,6 +96,8 @@ const EmployeeList = () => {
       setLoading(false);
     }
   };
+
+  const showDistrictFilter = userRole === 'superadmin' || userRole === 'admin';
 
   const formatDate = (isoString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -113,8 +139,6 @@ const EmployeeList = () => {
       alert('Failed to delete employee');
     }
   };
-
-  const showDistrictFilter = userRole === 'superadmin' || userRole === 'admin';
 
   if (loading) {
     return (
@@ -171,7 +195,7 @@ const EmployeeList = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          {/* Header Section */}
+
           <div className="p-6 sm:p-8 border-b border-blue-100">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
               <h1 className="text-2xl font-bold text-gray-900">Employee Directory</h1>
@@ -200,7 +224,6 @@ const EmployeeList = () => {
               )}
             </div>
 
-            {/* Filters Section */}
             <div className={`mt-6 grid grid-cols-1 md:grid-cols-${showDistrictFilter ? '3' : '2'} gap-4`}>
             {showDistrictFilter && (
                 <div className="space-y-1">
@@ -254,9 +277,10 @@ const EmployeeList = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-50 border-y border-gray-200">
-                  {["S.No", "Employee ID", "Name", "Designation", "Gender", "Place of Posting", 
-                    "Date of Birth", "Date of Joining", "Cause of Vacancy", "Caste", 
-                    "Reservation Status", "Date of Retirement", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
+                {["S.No", "Employee ID", "Name", "Designation", "Gender", "Place of Posting", 
+                "Date of Birth", "Date of Joining", "Date of Suspension", "Date of Reinstatement",
+                "Date of Promotion", "Date of Regularisation", "Cause of Vacancy", "Caste", 
+                "Reservation Status", "Date of Retirement", "PWD", "Ex-Servicemen", "Actions"].map((header) => (
                     <th key={header} className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       {header}
                     </th>
@@ -274,6 +298,10 @@ const EmployeeList = () => {
                   <td className="py-3 px-4">{employee.place_of_posting}</td>
                   <td className="py-3 px-4">{formatDate(employee.date_of_birth)}</td>
                   <td className="py-3 px-4">{formatDate(employee.date_of_joining)}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_suspension)}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_reinstatement)}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_promotion)}</td>
+                  <td className="py-3 px-4">{formatDate(employee.date_of_regularisation)}</td>
                   <td className="py-3 px-4">{employee.cause_of_vacancy}</td>
                   <td className="py-3 px-4">{employee.caste}</td>
                   <td className="py-3 px-4">{employee.posted_against_reservation}</td>
