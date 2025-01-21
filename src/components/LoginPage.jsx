@@ -12,8 +12,6 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const API_BASE_URL = "https://dee-portal-backend.onrender.com/api";
-
   const validatePassword = (pass) => {
     const minLength = 8;
     const hasUpperCase = /[A-Z]/.test(pass);
@@ -45,7 +43,7 @@ const LoginPage = () => {
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/reset-password`, {
+      await axios.post('http://localhost:5000/api/reset-password', {
         username,
         newPassword,
       });
@@ -66,7 +64,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const checkUserResponse = await axios.post(`${API_BASE_URL}/check-user`, {
+      const checkUserResponse = await axios.post('http://localhost:5000/api/check-user', {
         username
       });
 
@@ -75,7 +73,7 @@ const LoginPage = () => {
         return;
       }
 
-      const loginResponse = await axios.post(`${API_BASE_URL}/login`, {
+      const loginResponse = await axios.post('http://localhost:5000/api/login', {
         username,
         password,
       });
@@ -160,7 +158,7 @@ const LoginPage = () => {
           <div className="flex-1 bg-white rounded-xl p-8 shadow-lg border border-blue-100">
             <div className="space-y-6">
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-gray-900">বিদ্যালয় শিক্ষা বিভাগ, অসম                </h1>
+                <h1 className="text-2xl font-bold text-gray-900">শিক্ষা সমন্বয়</h1>
                 <h2 className="text-xl font-semibold text-blue-600 mt-4">Department of School Education</h2>
               </div>
               
